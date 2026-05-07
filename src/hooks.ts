@@ -6,7 +6,7 @@
  */
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { SYSTEM_PROMPT_INSTRUCTIONS } from "./instructions.js";
+import { SYSTEM_PROMPT_INSTRUCTIONS } from "./instructions";
 
 export function registerHooks(pi: ExtensionAPI, cbmBin: string | null) {
   // ---------------------------------------------------------------------------

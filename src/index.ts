@@ -14,10 +14,10 @@
  */
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { detectBinary } from "./cli.js";
-import { registerHooks } from "./hooks.js";
-import { registerAllTools } from "./tools/index.js";
-import { registerCommands } from "./commands.js";
+import { detectBinary } from "./cli";
+import { registerHooks } from "./hooks";
+import { registerAllTools } from "./tools";
+import { registerCommands } from "./commands";
 
 export default async function (pi: ExtensionAPI) {
   const cbmBin = await detectBinary(pi);

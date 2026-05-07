@@ -4,7 +4,7 @@
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
-import { runCbm, formatResult } from "../cli.js";
+import { runCbm, formatResult } from "../cli";
 
 export function registerGraphTools(
   pi: ExtensionAPI,

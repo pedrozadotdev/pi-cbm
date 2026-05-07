@@ -3,11 +3,11 @@
  */
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
-import { registerIndexingTools } from "./indexing.js";
-import { registerSearchTools } from "./search.js";
-import { registerGraphTools } from "./graph.js";
-import { registerAnalysisTools } from "./analysis.js";
-import { registerManagementTools } from "./management.js";
+import { registerIndexingTools } from "./indexing";
+import { registerSearchTools } from "./search";
+import { registerGraphTools } from "./graph";
+import { registerAnalysisTools } from "./analysis";
+import { registerManagementTools } from "./management";
 
 export function registerAllTools(pi: ExtensionAPI, cbmBin: string | null) {
   registerIndexingTools(pi, cbmBin);
