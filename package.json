@@ -1,0 +1,38 @@
+{
+  "name": "pi-cbm",
+  "version": "1.0.0",
+  "description": "Pi agent extension for codebase-memory-mcp — high-performance code intelligence via CLI mode",
+  "license": "MIT",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DeusData/codebase-memory-mcp"
+  },
+  "keywords": [
+    "pi",
+    "pi-agent",
+    "pi-extension",
+    "codebase-memory-mcp",
+    "code-intelligence",
+    "knowledge-graph",
+    "mcp"
+  ],
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": ">=0.74.0",
+    "typebox": ">=1.1.38"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "^0.74.0",
+    "typebox": "^1.1.38"
+  },
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "files": [
+    "src/**/*.ts",
+    "README.md",
+    "LICENSE"
+  ]
+}
