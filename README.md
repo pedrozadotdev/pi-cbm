@@ -39,11 +39,9 @@ codebase-memory-mcp --version
 ### As a Pi package (recommended)
 
 ```bash
-# From npm (after publishing)
-pi install npm:pi-cbm
 
 # From git
-pi install git:github.com/user/pi-cbm
+pi install git:github.com/pedrozadotdev/pi-cbm
 ```
 
 ### Manual install (global)
