@@ -1,5 +1,5 @@
 /**
- * Analysis tools: get_architecture, detect_changes
+ * Analysis tools: get_architecture, detect_changes, ingest_traces
  */
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
@@ -67,6 +67,37 @@ export function registerAnalysisTools(
     async execute(_id, params, signal, _onUpdate, ctx) {
       const args = { repo_path: params.repo_path ?? ctx.cwd, ...params };
       const result = await runCbm(pi, cbmBin, "detect_changes", args, signal);
+      return {
+        content: [{ type: "text", text: formatResult(result) }],
+        details: { result },
+      };
+    },
+  });
+
+  pi.registerTool({
+    name: "cbm_ingest_traces",
+    label: "CBM: Ingest Traces",
+    description:
+      "Ingest runtime traces (e.g. OpenTelemetry spans) to validate and enrich HTTP_CALLS edges in the knowledge graph with observed runtime data.",
+    promptSnippet:
+      "Ingest runtime traces to validate HTTP_CALLS edges in the graph",
+    parameters: Type.Object({
+      traces: Type.String({
+        description:
+          "Runtime trace data to ingest (e.g. JSON array of spans)",
+      }),
+      project: Type.Optional(
+        Type.String({ description: "Project to associate traces with" })
+      ),
+    }),
+    async execute(_id, params, signal) {
+      const result = await runCbm(
+        pi,
+        cbmBin,
+        "ingest_traces",
+        params,
+        signal
+      );
       return {
         content: [{ type: "text", text: formatResult(result) }],
         details: { result },

@@ -12,10 +12,10 @@ You have access to a high-performance code knowledge graph via codebase-memory-m
 
 **When to prefer graph tools over file exploration:**
 - Searching for functions, classes, types → use \`cbm_search_graph\` instead of grep/find
-- Tracing call chains ("what calls X?", "what does Y call?") → use \`cbm_trace_call_path\`
+- Tracing call chains ("what calls X?", "what does Y call?") → use \`cbm_trace_call_path\` (CLI tool: trace_path)
 - Understanding codebase structure/architecture → use \`cbm_get_architecture\`
 - Finding symbols by pattern → use \`cbm_search_graph\` with \`name_pattern\`
-- Semantic/conceptual search → use \`cbm_semantic_query\`
+- Text/regex search in source files → use \`cbm_search_code\`
 - Impact analysis of a change → use \`cbm_detect_changes\`
 - Custom graph queries → use \`cbm_query_graph\` (Cypher subset)
 - Getting code for a known symbol → use \`cbm_get_code_snippet\`

@@ -1,5 +1,5 @@
 /**
- * Search tools: search_graph, search_code, semantic_query
+ * Search tools: search_graph, search_code
  */
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
@@ -99,39 +99,4 @@ export function registerSearchTools(
     },
   });
 
-  pi.registerTool({
-    name: "cbm_semantic_query",
-    label: "CBM: Semantic Query",
-    description:
-      "Semantic vector search across the knowledge graph using bundled Nomic embeddings (no API key needed). Finds conceptually related symbols even with vocabulary mismatches. 11-signal combined scoring.",
-    promptSnippet:
-      "Semantic/conceptual search over the knowledge graph using vector embeddings",
-    promptGuidelines: [
-      "Use cbm_semantic_query for conceptual or semantic searches when you don't know the exact symbol name — it finds semantically related code even with vocabulary mismatches.",
-    ],
-    parameters: Type.Object({
-      query: Type.String({
-        description:
-          "Natural language description of what you are looking for",
-      }),
-      label: Type.Optional(
-        Type.String({
-          description: "Filter by node label: Function, Class, Method, etc.",
-        })
-      ),
-      project: Type.Optional(
-        Type.String({ description: "Limit to a specific project" })
-      ),
-      limit: Type.Optional(
-        Type.Number({ description: "Maximum results to return (default: 10)" })
-      ),
-    }),
-    async execute(_id, params, signal) {
-      const result = await runCbm(pi, cbmBin, "semantic_query", params, signal);
-      return {
-        content: [{ type: "text", text: formatResult(result) }],
-        details: { result },
-      };
-    },
-  });
 }

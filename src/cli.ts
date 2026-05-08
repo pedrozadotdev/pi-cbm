@@ -1,30 +1,27 @@
 /**
  * CLI runner — detects the codebase-memory-mcp binary and provides a typed
- * helper to invoke `codebase-memory-mcp cli --raw <tool> '<json>'`.
+ * helper to invoke `codebase-memory-mcp cli <tool> '<json>'`.
  */
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 /** Detect the codebase-memory-mcp binary from PATH. Returns the command name or null. */
 export async function detectBinary(pi: ExtensionAPI): Promise<string | null> {
-  // Try Windows-style "where" first, then fall back to POSIX "which"
-  for (const locator of ["where", "which"]) {
-    try {
-      const result = await pi.exec(locator, ["codebase-memory-mcp"], {
-        timeout: 5_000,
-      });
-      if (result.code === 0 && result.stdout?.trim()) {
-        return "codebase-memory-mcp";
-      }
-    } catch {
-      // locator not available, try next
+  try {
+    const result = await pi.exec("which", ["codebase-memory-mcp"], {
+      timeout: 5_000,
+    });
+    if (result.code === 0 && result.stdout?.trim()) {
+      return "codebase-memory-mcp";
     }
+  } catch {
+    // binary not found in PATH
   }
   return null;
 }
 
 /**
- * Run `codebase-memory-mcp cli --raw <tool> '<json>'` and return parsed output.
+ * Run `codebase-memory-mcp cli <tool> '<json>'` and return parsed output.
  *
  * Throws on non-zero exit code so Pi marks the tool result as `isError: true`.
  */
@@ -43,7 +40,7 @@ export async function runCbm(
   }
 
   const jsonArgs = JSON.stringify(args);
-  const result = await pi.exec(cbmBin, ["cli", "--raw", tool, jsonArgs], {
+  const result = await pi.exec(cbmBin, ["cli", tool, jsonArgs], {
     signal,
     timeout: 120_000, // 2 min max (indexing can be slow)
   });

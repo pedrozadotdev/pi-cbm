@@ -25,7 +25,7 @@ export function registerHooks(pi: ExtensionAPI, cbmBin: string | null) {
     try {
       const result = await pi.exec(
         cbmBin,
-        ["cli", "--raw", "list_projects", "{}"],
+        ["cli", "list_projects", "{}"],
         { timeout: 10_000 }
       );
 

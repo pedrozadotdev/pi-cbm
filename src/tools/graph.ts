@@ -96,7 +96,7 @@ export function registerGraphTools(
       const result = await runCbm(
         pi,
         cbmBin,
-        "trace_call_path",
+        "trace_path",
         params,
         signal
       );
