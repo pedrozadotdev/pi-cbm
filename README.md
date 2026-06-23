@@ -30,6 +30,7 @@ curl -fsSL https://raw.githubusercontent.com/DeusData/codebase-memory-mcp/main/i
 > Use `--skip-config` since this extension replaces the MCP server configuration.
 
 Verify installation:
+
 ```bash
 codebase-memory-mcp --version
 ```
@@ -45,17 +46,20 @@ pi install git:github.com/pedrozadotdev/pi-cbm
 ```
 
 ### Manual install (global)
+
 ```bash
 # Copy the entire directory
 cp -r . ~/.pi/agent/extensions/pi-cbm/
 ```
 
 ### Manual install (project-local)
+
 ```bash
 cp -r . .pi/extensions/pi-cbm/
 ```
 
 ### Quick test
+
 ```bash
 pi -e ./src/index.ts
 ```
@@ -63,10 +67,13 @@ pi -e ./src/index.ts
 ## Usage
 
 ### 1. Index your project
+
 ```
 /cbm-index
 ```
+
 Or ask the agent:
+
 ```
 Index this project with codebase-memory-mcp
 ```
@@ -85,11 +92,12 @@ Search for all HTTP route handlers
 What is the architecture of this codebase?
 → agent uses cbm_get_architecture
 
-Find code related to "authentication middleware" semantically
-→ agent uses cbm_semantic_query
+Search source files for a pattern across indexed projects
+→ agent uses cbm_search_code
 ```
 
 ### 3. Check status
+
 ```
 /cbm-status
 ```
@@ -102,7 +110,7 @@ Find code related to "authentication middleware" semantically
 | `cbm_index_status` | Indexing status for a project |
 | `cbm_search_graph` | Structural search (symbols, patterns, labels) |
 | `cbm_search_code` | Graph-augmented grep over indexed files |
-| `cbm_semantic_query` | Semantic vector search (no API key needed) |
+| `cbm_ingest_traces` | Ingest runtime traces (OpenTelemetry spans) to validate HTTP_CALLS edges |
 | `cbm_query_graph` | Cypher-like graph queries |
 | `cbm_get_graph_schema` | Graph schema (node labels, edge types) |
 | `cbm_trace_call_path` | Call graph traversal (callers/callees) |
@@ -129,9 +137,9 @@ pi-cbm/
     └── tools/
         ├── index.ts          # Barrel — registers all tool groups
         ├── indexing.ts       # index_repository, index_status
-        ├── search.ts         # search_graph, search_code, semantic_query
+        ├── search.ts         # search_graph, search_code
         ├── graph.ts          # query_graph, get_graph_schema, trace_call_path, get_code_snippet
-        ├── analysis.ts       # get_architecture, detect_changes
+        ├── analysis.ts       # get_architecture, detect_changes, ingest_traces
         └── management.ts     # list_projects, delete_project, manage_adr
 ```
 
@@ -141,10 +149,11 @@ This extension uses **CLI mode** exclusively:
 
 ```bash
 # Under the hood, each tool call runs:
-codebase-memory-mcp cli --raw <tool_name> '{"param": "value"}'
+codebase-memory-mcp cli <tool_name> '{"param": "value"}'
 ```
 
 Benefits:
+
 - No background server process to manage
 - Works in any environment where the binary is in PATH
 - Simple subprocess call with JSON in/out
@@ -153,6 +162,7 @@ Benefits:
 ## How it maps to Claude Code integration
 
 codebase-memory-mcp for Claude Code uses:
+
 1. **CLAUDE.md** — instructions injected into every session → replicated via `before_agent_start` in [`src/hooks.ts`](src/hooks.ts)
 2. **PreToolUse hooks** — advisory shell scripts that remind Claude to use graph tools → replicated via `tool_call` event in [`src/hooks.ts`](src/hooks.ts)
 

@@ -2,7 +2,7 @@
  * Pi Agent Extension for codebase-memory-mcp (CLI Mode)
  *
  * Integrates codebase-memory-mcp into Pi by:
- * 1. Registering 14 custom tools that invoke `codebase-memory-mcp cli <tool>` via pi.exec()
+ * 1. Registering 14 custom tools that invoke `codebase-memory-mcp cli <tool>` via pi.exec() (no `--raw` flag)
  * 2. Injecting system prompt instructions (equivalent to Claude Code's CLAUDE.md/instructions)
  * 3. Providing advisory tool hooks on grep/find/read (equivalent to Claude Code's PreToolUse hooks)
  *
@@ -20,9 +20,9 @@ import { registerAllTools } from "./tools";
 import { registerCommands } from "./commands";
 
 export default async function (pi: ExtensionAPI) {
-  const cbmBin = await detectBinary(pi);
+	const cbmBin = await detectBinary(pi);
 
-  registerHooks(pi, cbmBin);
-  registerAllTools(pi, cbmBin);
-  registerCommands(pi, cbmBin);
+	registerHooks(pi, cbmBin);
+	registerAllTools(pi, cbmBin);
+	registerCommands(pi, cbmBin);
 }
