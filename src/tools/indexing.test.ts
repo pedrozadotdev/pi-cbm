@@ -7,9 +7,11 @@
 import { test, mock } from "node:test";
 import assert from "node:assert/strict";
 import type { ExtensionAPI, ExecResult } from "@earendil-works/pi-coding-agent";
+import { pathToProjectName } from "../cli.js";
 import { registerIndexingTools } from "./indexing.js";
 
 const FAKE_CWD = "/fake/project";
+const FAKE_PROJECT = pathToProjectName(FAKE_CWD);
 const FAKE_CBM = "test-cbm";
 
 /** Parse the JSON args from a pi.exec call to cbm cli tool */
@@ -103,7 +105,11 @@ test("cbm_index_status: without project defaults to ctx.cwd", async () => {
 
 	assert.equal(execCalls.length, 1);
 	const parsed = parseExecArgs(execCalls[0].args);
-	assert.equal(parsed.project, FAKE_CWD, "project should default to ctx.cwd");
+	assert.equal(
+		parsed.project,
+		FAKE_PROJECT,
+		"project should default to ctx.cwd",
+	);
 });
 
 test("cbm_index_status: with explicit project passes through", async () => {

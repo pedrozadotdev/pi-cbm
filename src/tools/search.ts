@@ -4,7 +4,7 @@
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
-import { runCbm, formatResult } from "../cli";
+import { runCbm, formatResult, pathToProjectName } from "../cli";
 
 export function registerSearchTools(pi: ExtensionAPI, cbmBin: string | null) {
 	pi.registerTool({
@@ -55,7 +55,7 @@ export function registerSearchTools(pi: ExtensionAPI, cbmBin: string | null) {
 				"search_graph",
 				{
 					...params,
-					project: params.project ?? ctx.cwd,
+					project: params.project ?? pathToProjectName(ctx.cwd),
 				},
 				signal,
 			);
@@ -101,7 +101,7 @@ export function registerSearchTools(pi: ExtensionAPI, cbmBin: string | null) {
 				"search_code",
 				{
 					...params,
-					project: params.project ?? ctx.cwd,
+					project: params.project ?? pathToProjectName(ctx.cwd),
 				},
 				signal,
 			);

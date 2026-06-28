@@ -29,11 +29,11 @@ export function registerHooks(pi: ExtensionAPI, cbmBin: string | null) {
 
 			if (result.code === 0 && result.stdout) {
 				const data = JSON.parse(result.stdout.trim()) as {
-					projects?: Array<{ path?: string; name?: string }>;
+					projects?: Array<{ root_path?: string; name?: string }>;
 				};
 				const cwd = ctx.cwd;
 				const isIndexed = data.projects?.some(
-					(p) => p.path === cwd || cwd.startsWith(p.path ?? ""),
+					(p) => p.root_path === cwd || cwd.startsWith(p.root_path ?? ""),
 				);
 
 				ctx.ui.setStatus(

@@ -7,9 +7,11 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import type { ExtensionAPI, ExecResult } from "@earendil-works/pi-coding-agent";
+import { pathToProjectName } from "../cli.js";
 import { registerSearchTools } from "./search.js";
 
 const FAKE_CWD = "/fake/project";
+const FAKE_PROJECT = pathToProjectName(FAKE_CWD);
 const FAKE_CBM = "test-cbm";
 
 function parseExecArgs(args: string[]): Record<string, unknown> {
@@ -60,7 +62,11 @@ test("cbm_search_graph: without project defaults to ctx.cwd", async () => {
 
 	assert.equal(execCalls.length, 1);
 	const parsed = parseExecArgs(execCalls[0].args);
-	assert.equal(parsed.project, FAKE_CWD, "project should default to ctx.cwd");
+	assert.equal(
+		parsed.project,
+		FAKE_PROJECT,
+		"project should default to ctx.cwd",
+	);
 	assert.equal(parsed.name_pattern, ".*Handler.*", "other params preserved");
 });
 
@@ -98,7 +104,11 @@ test("cbm_search_code: without project defaults to ctx.cwd", async () => {
 
 	assert.equal(execCalls.length, 1);
 	const parsed = parseExecArgs(execCalls[0].args);
-	assert.equal(parsed.project, FAKE_CWD, "project should default to ctx.cwd");
+	assert.equal(
+		parsed.project,
+		FAKE_PROJECT,
+		"project should default to ctx.cwd",
+	);
 	assert.equal(parsed.pattern, "someFunction", "other params preserved");
 });
 

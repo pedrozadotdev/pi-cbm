@@ -8,9 +8,11 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import type { ExtensionAPI, ExecResult } from "@earendil-works/pi-coding-agent";
+import { pathToProjectName } from "../cli.js";
 import { registerGraphTools } from "./graph.js";
 
 const FAKE_CWD = "/fake/project";
+const FAKE_PROJECT = pathToProjectName(FAKE_CWD);
 const FAKE_CBM = "test-cbm";
 
 function parseExecArgs(args: string[]): Record<string, unknown> {
@@ -61,7 +63,11 @@ test("cbm_query_graph: without project defaults to ctx.cwd", async () => {
 
 	assert.equal(execCalls.length, 1);
 	const parsed = parseExecArgs(execCalls[0].args);
-	assert.equal(parsed.project, FAKE_CWD, "project should default to ctx.cwd");
+	assert.equal(
+		parsed.project,
+		FAKE_PROJECT,
+		"project should default to ctx.cwd",
+	);
 	assert.equal(parsed.query, "MATCH (n) RETURN n", "other params preserved");
 });
 
@@ -99,7 +105,7 @@ test("cbm_get_graph_schema: without project defaults to ctx.cwd", async () => {
 
 	assert.equal(execCalls.length, 1);
 	const parsed = parseExecArgs(execCalls[0].args);
-	assert.equal(parsed.project, FAKE_CWD);
+	assert.equal(parsed.project, FAKE_PROJECT);
 });
 
 test("cbm_get_graph_schema: with explicit project passes through", async () => {
@@ -136,7 +142,7 @@ test("cbm_trace_call_path: without project defaults to ctx.cwd", async () => {
 
 	assert.equal(execCalls.length, 1);
 	const parsed = parseExecArgs(execCalls[0].args);
-	assert.equal(parsed.project, FAKE_CWD);
+	assert.equal(parsed.project, FAKE_PROJECT);
 	assert.equal(parsed.function_name, "foo", "other params preserved");
 });
 

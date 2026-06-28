@@ -4,7 +4,7 @@
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
-import { runCbm, formatResult } from "../cli";
+import { runCbm, formatResult, pathToProjectName } from "../cli";
 
 export function registerIndexingTools(pi: ExtensionAPI, cbmBin: string | null) {
 	pi.registerTool({
@@ -61,7 +61,7 @@ export function registerIndexingTools(pi: ExtensionAPI, cbmBin: string | null) {
 		async execute(_id, params, signal, _onUpdate, ctx) {
 			const args = {
 				...params,
-				project: params.project ?? ctx.cwd,
+				project: params.project ?? pathToProjectName(ctx.cwd),
 				repo_path: ctx.cwd,
 			};
 			const result = await runCbm(pi, cbmBin, "index_status", args, signal);

@@ -4,7 +4,7 @@
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
-import { runCbm, formatResult } from "../cli";
+import { runCbm, formatResult, pathToProjectName } from "../cli";
 
 export function registerManagementTools(
 	pi: ExtensionAPI,
@@ -41,7 +41,7 @@ export function registerManagementTools(
 			),
 		}),
 		async execute(_id, params, signal, _onUpdate, ctx) {
-			const project = params.project ?? ctx.cwd;
+			const project = params.project ?? pathToProjectName(ctx.cwd);
 			const result = await runCbm(
 				pi,
 				cbmBin,
@@ -90,7 +90,7 @@ export function registerManagementTools(
 				"manage_adr",
 				{
 					...params,
-					project: params.project ?? ctx.cwd,
+					project: params.project ?? pathToProjectName(ctx.cwd),
 				},
 				signal,
 			);

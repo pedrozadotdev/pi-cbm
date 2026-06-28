@@ -7,9 +7,11 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import type { ExtensionAPI, ExecResult } from "@earendil-works/pi-coding-agent";
+import { pathToProjectName } from "../cli.js";
 import { registerManagementTools } from "./management.js";
 
 const FAKE_CWD = "/fake/project";
+const FAKE_PROJECT = pathToProjectName(FAKE_CWD);
 const FAKE_CBM = "test-cbm";
 
 function parseExecArgs(args: string[]): Record<string, unknown> {
@@ -79,7 +81,7 @@ test("cbm_delete_project: without project defaults to ctx.cwd", async () => {
 
 	assert.equal(execCalls.length, 1);
 	const parsed = parseExecArgs(execCalls[0].args);
-	assert.equal(parsed.project, FAKE_CWD);
+	assert.equal(parsed.project, FAKE_PROJECT);
 });
 
 test("cbm_delete_project: with explicit project passes through", async () => {
@@ -116,7 +118,7 @@ test("cbm_manage_adr: without project defaults to ctx.cwd", async () => {
 
 	assert.equal(execCalls.length, 1);
 	const parsed = parseExecArgs(execCalls[0].args);
-	assert.equal(parsed.project, FAKE_CWD);
+	assert.equal(parsed.project, FAKE_PROJECT);
 	assert.equal(parsed.action, "list", "other params preserved");
 });
 
