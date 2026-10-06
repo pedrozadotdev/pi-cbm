@@ -14,9 +14,6 @@ export function registerGraphTools(pi: ExtensionAPI, cbmBin: string | null) {
 			"Execute a Cypher-like query against the knowledge graph. Supports MATCH, WHERE, RETURN, ORDER BY, LIMIT. Example: MATCH (f:Function)-[:CALLS]->(g) WHERE f.name = 'main' RETURN g.name",
 		promptSnippet:
 			"Execute Cypher-like queries against the code knowledge graph",
-		promptGuidelines: [
-			"Use cbm_query_graph for custom Cypher-like queries when cbm_search_graph or cbm_trace_call_path are not expressive enough.",
-		],
 		parameters: Type.Object({
 			query: Type.String({
 				description:
@@ -80,9 +77,6 @@ export function registerGraphTools(pi: ExtensionAPI, cbmBin: string | null) {
 			"Trace call graph paths for a function — inbound callers, outbound callees, or both. Use this instead of reading files to understand call chains.",
 		promptSnippet:
 			"Trace who calls a function and what it calls (call graph traversal)",
-		promptGuidelines: [
-			"Use cbm_trace_call_path to answer 'what calls X?' (direction='inbound') or 'what does X call?' (direction='outbound').",
-		],
 		parameters: Type.Object({
 			function_name: Type.String({
 				description: "Name of the function to trace",
@@ -125,9 +119,6 @@ export function registerGraphTools(pi: ExtensionAPI, cbmBin: string | null) {
 			"Get the source code snippet for a symbol by its qualified name (e.g. myproject.src.handlers.ProcessOrder). Use cbm_search_graph first to discover qualified names.",
 		promptSnippet:
 			"Get source code for a symbol by its qualified name from the knowledge graph",
-		promptGuidelines: [
-			"Use cbm_get_code_snippet to retrieve source code for a specific symbol instead of reading the whole file with read.",
-		],
 		parameters: Type.Object({
 			qualified_name: Type.String({
 				description:

@@ -6,11 +6,12 @@ A [Pi agent](https://pi.dev) extension that integrates [codebase-memory-mcp](htt
 
 | Feature | Pi mechanism | Claude Code equivalent |
 |---------|-------------|----------------------|
-| System prompt instructions | `before_agent_start` event | `CLAUDE.md` / instructions file |
-| Advisory pre-tool hooks | `tool_call` event (non-blocking) | `PreToolUse` hooks (exit 0) |
+| Slim graph-usage nudge | `before_agent_start` event | `CLAUDE.md` / instructions file |
 | 14 codebase-memory-mcp tools | `pi.registerTool()` | MCP tool calls |
 | `/cbm-index` command | `pi.registerCommand()` | — |
 | `/cbm-status` command | `pi.registerCommand()` | — |
+
+The context injection is intentionally minimal — each `cbm_*` tool ships its own description and snippet, so the system prompt only states when to prefer the graph over `grep`/`read`.
 
 ## Prerequisites
 
@@ -131,8 +132,8 @@ pi-cbm/
 └── src/
     ├── index.ts              # Extension entry point (factory function)
     ├── cli.ts                # Binary detection + CLI runner helper
-    ├── instructions.ts       # System prompt text (≈ CLAUDE.md)
-    ├── hooks.ts              # Lifecycle hooks (session_start, before_agent_start, tool_call)
+    ├── instructions.ts       # Slim system-prompt nudge (prefer cbm_ tools)
+    ├── hooks.ts              # Lifecycle hooks (session_start, before_agent_start)
     ├── commands.ts           # Slash commands (/cbm-index, /cbm-status)
     └── tools/
         ├── index.ts          # Barrel — registers all tool groups
@@ -163,10 +164,9 @@ Benefits:
 
 codebase-memory-mcp for Claude Code uses:
 
-1. **CLAUDE.md** — instructions injected into every session → replicated via `before_agent_start` in [`src/hooks.ts`](src/hooks.ts)
-2. **PreToolUse hooks** — advisory shell scripts that remind Claude to use graph tools → replicated via `tool_call` event in [`src/hooks.ts`](src/hooks.ts)
+1. **CLAUDE.md** — instructions injected into every session → replicated by a one-line `before_agent_start` injection in [`src/hooks.ts`](src/hooks.ts)
 
-This extension replicates both patterns using Pi's native extension API.
+This extension replicates that pattern using Pi's native extension API, minus the repetitive reminder scaffolding older models needed.
 
 ## License
 

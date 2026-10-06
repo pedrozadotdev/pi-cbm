@@ -14,9 +14,6 @@ export function registerIndexingTools(pi: ExtensionAPI, cbmBin: string | null) {
 			"Index a repository into the codebase knowledge graph. Must be called before any graph queries on a new project. Supports 155 languages.",
 		promptSnippet:
 			"Index a codebase into the knowledge graph for structural queries",
-		promptGuidelines: [
-			"Use cbm_index_repository to index a project before using other cbm_ graph tools on it.",
-		],
 		parameters: Type.Object({
 			repo_path: Type.Optional(
 				Type.String({
@@ -29,6 +26,7 @@ export function registerIndexingTools(pi: ExtensionAPI, cbmBin: string | null) {
 			const repoPath = params.repo_path ?? ctx.cwd;
 			onUpdate?.({
 				content: [{ type: "text", text: `Indexing ${repoPath}…` }],
+				details: {},
 			});
 			const result = await runCbm(
 				pi,

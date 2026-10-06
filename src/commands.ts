@@ -3,6 +3,7 @@
  */
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { listProjects } from "./cli";
 
 export function registerCommands(pi: ExtensionAPI, cbmBin: string | null) {
 	// /cbm-index — quick-index the cwd
@@ -48,35 +49,22 @@ export function registerCommands(pi: ExtensionAPI, cbmBin: string | null) {
 				return;
 			}
 
-			try {
-				const result = await pi.exec(cbmBin, ["cli", "list_projects", "{}"], {
-					timeout: 10_000,
-				});
+			const projects = await listProjects(pi, cbmBin);
+			if (!projects) {
+				ctx.ui.notify("Could not read project list", "error");
+				return;
+			}
 
-				if (result.code === 0 && result.stdout) {
-					const data = JSON.parse(result.stdout.trim()) as {
-						projects?: Array<{
-							path?: string;
-							name?: string;
-							files?: number;
-						}>;
-					};
-					const projects = data.projects ?? [];
-
-					if (projects.length === 0) {
-						ctx.ui.notify(
-							"No projects indexed yet. Use /cbm-index to index this directory.",
-							"info",
-						);
-					} else {
-						const list = projects
-							.map((p) => `• ${p.name ?? p.path} (${p.files ?? "?"} files)`)
-							.join("\n");
-						ctx.ui.notify(`Indexed projects:\n${list}`, "info");
-					}
-				}
-			} catch (err) {
-				ctx.ui.notify(`Error: ${String(err)}`, "error");
+			if (projects.length === 0) {
+				ctx.ui.notify(
+					"No projects indexed yet. Use /cbm-index to index this directory.",
+					"info",
+				);
+			} else {
+				const list = projects
+					.map((p) => `• ${p.name ?? p.path} (${p.files ?? "?"} files)`)
+					.join("\n");
+				ctx.ui.notify(`Indexed projects:\n${list}`, "info");
 			}
 		},
 	});
