@@ -85,3 +85,29 @@ export function formatResult(result: unknown): string {
 	}
 	return String(result);
 }
+
+/** A project entry as returned by `list_projects`. */
+export interface CbmProject {
+	name?: string;
+	path?: string;
+	root_path?: string;
+	files?: number;
+}
+
+/**
+ * Run `list_projects` and return the parsed project list.
+ * Returns `null` when the binary call or JSON parse fails.
+ */
+export async function listProjects(
+	pi: ExtensionAPI,
+	cbmBin: string | null,
+): Promise<CbmProject[] | null> {
+	try {
+		const result = (await runCbm(pi, cbmBin, "list_projects", {})) as {
+			projects?: CbmProject[];
+		};
+		return result.projects ?? [];
+	} catch {
+		return null;
+	}
+}

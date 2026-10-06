@@ -14,10 +14,6 @@ export function registerSearchTools(pi: ExtensionAPI, cbmBin: string | null) {
 			"Structural search over the knowledge graph. Use regex name patterns, label filters (Function, Class, Method, etc.), min/max degree, and file scoping. Prefer this over grep for finding symbols.",
 		promptSnippet:
 			"Structural search for symbols (functions, classes, etc.) in the knowledge graph",
-		promptGuidelines: [
-			"Use cbm_search_graph instead of grep when searching for functions, classes, methods, or other symbols by name or pattern.",
-			"Use cbm_search_graph with label='Function' to find all functions, label='Class' for classes, etc.",
-		],
 		parameters: Type.Object({
 			name_pattern: Type.Optional(
 				Type.String({

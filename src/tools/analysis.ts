@@ -14,9 +14,6 @@ export function registerAnalysisTools(pi: ExtensionAPI, cbmBin: string | null) {
 			"Get a high-level architecture overview of the codebase: languages, packages, entry points, HTTP routes, hotspots, module boundaries, layers, and clusters — in a single call.",
 		promptSnippet:
 			"Get a high-level architecture overview of the codebase from the knowledge graph",
-		promptGuidelines: [
-			"Use cbm_get_architecture for a quick structural overview of the codebase before diving into details.",
-		],
 		parameters: Type.Object({
 			project: Type.Optional(
 				Type.String({
@@ -50,9 +47,6 @@ export function registerAnalysisTools(pi: ExtensionAPI, cbmBin: string | null) {
 			"Map uncommitted git changes to affected symbols with risk classification. Shows which functions/classes are impacted by current edits.",
 		promptSnippet:
 			"Analyze git diff to find which symbols are affected by current changes",
-		promptGuidelines: [
-			"Use cbm_detect_changes to understand the impact of current uncommitted changes before a commit or code review.",
-		],
 		parameters: Type.Object({}),
 		async execute(_id, params, signal, _onUpdate, ctx) {
 			const args = { repo_path: ctx.cwd };

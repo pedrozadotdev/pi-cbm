@@ -3,8 +3,7 @@
  *
  * Integrates codebase-memory-mcp into Pi by:
  * 1. Registering 14 custom tools that invoke `codebase-memory-mcp cli <tool>` via pi.exec() (no `--raw` flag)
- * 2. Injecting system prompt instructions (equivalent to Claude Code's CLAUDE.md/instructions)
- * 3. Providing advisory tool hooks on grep/find/read (equivalent to Claude Code's PreToolUse hooks)
+ * 2. Injecting a one-line system-prompt nudge (equivalent to Claude Code's CLAUDE.md/instructions)
  *
  * Install as a Pi package:
  *   pi install npm:pi-cbm
